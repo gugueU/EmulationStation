@@ -18,10 +18,15 @@ GuiVideoScreensaverOptions::GuiVideoScreensaverOptions(Window* window, const cha
 		PowerSaver::updateTimeouts();
 	});
 
-	auto stretch_screensaver = std::make_shared<SwitchComponent>(mWindow);
-	stretch_screensaver->setState(Settings::getInstance()->getBool("StretchVideoOnScreenSaver"));
-	addWithLabel("STRETCH VIDEO ON SCREENSAVER", stretch_screensaver);
-	addSaveFunc([stretch_screensaver] { Settings::getInstance()->setBool("StretchVideoOnScreenSaver", stretch_screensaver->getState()); });
+  auto ss_mode = std::make_shared< OptionListComponent<std::string> >(mWindow, "VIDEO MODE", false);
+    std::vector<std::string> video_screen_saver_type;
+    video_screen_saver_type.emplace_back("normal");
+    video_screen_saver_type.emplace_back("stretch");
+    video_screen_saver_type.emplace_back("detail");
+    for(const auto & it : video_screen_saver_type)
+        ss_mode->add(it, it, Settings::getInstance()->getString("StretchVideoOnScreenSaver") == it);
+    addWithLabel("VIDEO MODE", ss_mode);
+    addSaveFunc([ss_mode, this] { Settings::getInstance()->setString("StretchVideoOnScreenSaver", ss_mode->getSelected()); });
 
 #ifdef _RPI_
 	auto ss_omx = std::make_shared<SwitchComponent>(mWindow);

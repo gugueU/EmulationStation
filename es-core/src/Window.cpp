@@ -7,6 +7,7 @@
 #include "InputManager.h"
 #include "Log.h"
 #include "Scripting.h"
+#include "../../es-app/src/CollectionSystemManager.h"
 #include <algorithm>
 #include <iomanip>
 
@@ -120,7 +121,8 @@ void Window::input(InputConfig* config, Input input)
 		if(mScreenSaver->isScreenSaverActive() && Settings::getInstance()->getBool("ScreenSaverControls") &&
 		   (Settings::getInstance()->getString("ScreenSaverBehavior") == "random video"))
 		{
-			if(mScreenSaver->getCurrentGame() != NULL && (config->isMappedLike("right", input) || config->isMappedTo("start", input) || config->isMappedTo("select", input)))
+			if(mScreenSaver->getCurrentGame() != NULL && (config->isMappedLike("right", input) || config->isMappedTo("start", input) ||
+			config->isMappedTo("select", input)) || config->isMappedTo("y", input))
 			{
 				if(config->isMappedLike("right", input) || config->isMappedTo("select", input))
 				{
@@ -130,6 +132,13 @@ void Window::input(InputConfig* config, Input input)
 					}
 					return;
 				}
+                else if(config->isMappedTo("y", input))
+                {
+                    if (input.value != 0) {
+                        CollectionSystemManager::get()->toggleGameInCollection(mScreenSaver->getCurrentGame());
+                    }
+                    return;
+                }
 				else if(config->isMappedTo("start", input) && input.value != 0)
 				{
 					// launch game!

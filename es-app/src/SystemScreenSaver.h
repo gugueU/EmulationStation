@@ -7,6 +7,7 @@
 class ImageComponent;
 class Sound;
 class VideoComponent;
+class VideoDetail;
 
 // Screensaver implementation for main window
 class SystemScreenSaver : public Window::ScreenSaver
@@ -62,6 +63,11 @@ private:
 	int 			mVideoChangeTime;
 	std::shared_ptr<Sound>	mBackgroundAudio;
 	bool			mStopBackgroundAudio;
+    VideoDetail* mVideoDetail;
+    int gamesHistoryIndex;
+    int last;
+    int gamesHistorySize;
+    std::vector<FileData*> gamesHistory;
 };
 
 #endif // ES_APP_SYSTEM_SCREEN_SAVER_H

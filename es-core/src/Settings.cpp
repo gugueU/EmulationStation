@@ -99,7 +99,7 @@ void Settings::setDefaults()
 
 	mBoolMap["ScreenSaverControls"] = true;
 	mStringMap["ScreenSaverGameInfo"] = "never";
-	mBoolMap["StretchVideoOnScreenSaver"] = false;
+    mStringMap["StretchVideoOnScreenSaver"] = "detail";
 	mStringMap["PowerSaverMode"] = "disabled";
 
 	mIntMap["ScreenSaverSwapImageTimeout"] = 10000;
